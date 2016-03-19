@@ -1,20 +1,21 @@
-package br.uefs.ecomp.winMonster.view;
+package br.uefs.ecomp.winmonster.view;
 
 import java.io.File;
 import java.io.IOException;
 
-import br.uefs.ecomp.winMonster.controller.AdministradorController;
-import br.uefs.ecomp.winMonster.util.Fila;
-import br.uefs.ecomp.winMonster.util.MeuIterador;
-import br.uefs.ecomp.winMonster.util.No;
+import br.uefs.ecomp.winmonster.controller.AdministradorController;
+import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
+import br.uefs.ecomp.winmonster.util.Fila;
+import br.uefs.ecomp.winmonster.util.MeuIterador;
+import br.uefs.ecomp.winmonster.util.No;
 
 public class Principal {
 	
-	public static void main(String [] args){
+	public static void main(String [] args) throws FilaNulaException{
 		
-		AdministradorController controllerAdm = new AdministradorController();
+		AdministradorController controllerAdm = AdministradorController.getInstance();
 		
-		File arquivo = new File("C:/frase.txt");
+		File arquivo = new File("C:/Users/Victor/frases.txt");
 		String texto = null;
 		
 		try {
@@ -33,7 +34,7 @@ public class Principal {
 		
 		System.out.println("\n¡rvore");
 		
-		No no = controllerAdm.getHuff().huffman(fila);
+		No no = controllerAdm.getHuff().arvore(fila);
 		percorreArvore(no);
 		System.out.println("\n");
 		
