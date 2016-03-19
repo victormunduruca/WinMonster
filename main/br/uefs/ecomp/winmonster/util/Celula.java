@@ -1,4 +1,4 @@
-package br.uefs.ecomp.winMonster.util;
+package br.uefs.ecomp.winmonster.util;
 
 public class Celula{
 	

@@ -1,17 +1,31 @@
-package br.uefs.ecomp.winMonster.util;
+package br.uefs.ecomp.winmonster.util;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
+
 public class AlgoritmoHuffman {
 	
 	private String arestas = "";
 	private File arquivo;
 
-	public AlgoritmoHuffman(){
+	private static AlgoritmoHuffman instanciaAdm;
 
+	private AlgoritmoHuffman() {
+		
+	}
+	
+	public static AlgoritmoHuffman getInstance(){
+		if(instanciaAdm == null)
+			instanciaAdm = new AlgoritmoHuffman();
+		return instanciaAdm;
+	}
+	
+	public static void zerarSingleton() {
+		instanciaAdm = null;
 	}
 	
 	/*Gero um arquivo de mapa com  mesmo nome do arquivo original para facilitar
@@ -54,7 +68,9 @@ public class AlgoritmoHuffman {
 		return null;
 	}
 
-	public No huffman(Fila fila){
+	public No arvore(Fila fila) throws FilaNulaException{
+		if(fila.estaVazia())
+			throw new FilaNulaException();
 		if(fila.obterTamanho() == 1)
 			return (No) fila.removerInicio();
 		No noPai = null;
@@ -74,7 +90,7 @@ public class AlgoritmoHuffman {
 			if(no.getFilhoDaEsquerda() == null && no.getFilhoDaDireita() == null){
 				FileWriter file = new FileWriter(arquivo, true);
 				BufferedWriter escrever = new BufferedWriter(file);
-				escrever.write(no.getSimbolo() + " " + arestas);
+				escrever.write(no.getSimbolo() + arestas);
 				escrever.newLine();
 				escrever.close();
 				file.close();
