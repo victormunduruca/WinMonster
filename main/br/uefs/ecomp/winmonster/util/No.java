@@ -64,7 +64,10 @@ public class No implements Comparable<Object> {
 		No no = (No) o;
 		if(this.frequencia > no.getFrequencia())
 			return 1;
-		else
+		else if(this.frequencia < no.getFrequencia()) {
+			return -1;
+		} else {
 			return 0;
+		}	
 	}
 }

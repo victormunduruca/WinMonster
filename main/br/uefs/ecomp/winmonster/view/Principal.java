@@ -1,6 +1,8 @@
 package br.uefs.ecomp.winmonster.view;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import br.uefs.ecomp.winmonster.controller.AdministradorController;
