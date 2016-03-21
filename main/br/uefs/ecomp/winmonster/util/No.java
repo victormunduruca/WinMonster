@@ -70,4 +70,10 @@ public class No implements Comparable<Object> {
 			return 0;
 		}	
 	}
+	public boolean eFolha() {
+		if(filhoDaDireita == null && filhoDaEsquerda == null) {
+			return true;
+		}
+		return false;
+	}
 }
