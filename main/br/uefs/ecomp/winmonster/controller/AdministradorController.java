@@ -9,7 +9,7 @@ import br.uefs.ecomp.winmonster.util.AlgoritmoHuffman;
 
 public class AdministradorController {
 
-	
+
 	private static AdministradorController instanciaAdm;
 	private AlgoritmoHuffman algoritmoHuffman;
 
@@ -17,7 +17,7 @@ public class AdministradorController {
 		AlgoritmoHuffman.zerarSingleton();
 		algoritmoHuffman = AlgoritmoHuffman.getInstance();
 	}
-	
+
 	/**
 	 * Metodo que instancia um objeto do tipo AdministradorController apenas uma vez.
 	 * @return AdministradorController
@@ -27,11 +27,11 @@ public class AdministradorController {
 			instanciaAdm = new AdministradorController();
 		return instanciaAdm;//Retorna a referência do mesmo objeto AdministradorController.
 	}
-	
+
 	public AlgoritmoHuffman getHuff(){
 		return algoritmoHuffman;
 	}
-	
+
 	public String lerArquivo(File arquivo) throws IOException{
 		FileReader file = new FileReader(arquivo);
 		BufferedReader leitura = new BufferedReader(file);
@@ -43,7 +43,7 @@ public class AdministradorController {
 		file.close();
 		return texto;
 	}
-	
+
 	/**
 	 * Método que reseta a referência "instanciaAdm" permitindo criar uma instância da classe AdministradorController.
 	 */

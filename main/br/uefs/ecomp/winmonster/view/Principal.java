@@ -1,18 +1,20 @@
-package br.uefs.ecomp.winMonster.view;
+package br.uefs.ecomp.winmonster.view;
 
 import java.io.File;
 import java.io.IOException;
 
-import br.uefs.ecomp.winMonster.controller.AdministradorController;
-import br.uefs.ecomp.winMonster.util.Fila;
-import br.uefs.ecomp.winMonster.util.MeuIterador;
-import br.uefs.ecomp.winMonster.util.No;
+import br.uefs.ecomp.winmonster.controller.AdministradorController;
+import br.uefs.ecomp.winmonster.exceptions.ArvoreNulaException;
+import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
+import br.uefs.ecomp.winmonster.util.Fila;
+import br.uefs.ecomp.winmonster.util.MeuIterador;
+import br.uefs.ecomp.winmonster.util.No;
 
 public class Principal {
 	
 	public static void main(String [] args){
 		
-		AdministradorController controllerAdm = new AdministradorController();
+		AdministradorController controllerAdm = AdministradorController.getInstance();
 		
 		File arquivo = new File("C:/frase.txt");
 		String texto = null;
@@ -23,7 +25,9 @@ public class Principal {
 			e.printStackTrace();
 		} 
 		
-		Fila fila = controllerAdm.getHuff().contaFrequencias(texto);
+		Fila fila = null;
+		fila = controllerAdm.getHuff().contaFrequencias(texto);
+		
 		MeuIterador i = (MeuIterador) fila.iterador();
 		while(i.temProximo()){
 			No no = (No) i.obterProximo();
@@ -33,7 +37,13 @@ public class Principal {
 		
 		System.out.println("\n¡rvore");
 		
-		No no = controllerAdm.getHuff().huffman(fila);
+		No no = null;
+		try {
+			no = controllerAdm.getHuff().arvore(fila);
+		} catch (FilaNulaException e2) {
+			e2.printStackTrace();
+		}
+		
 		percorreArvore(no);
 		System.out.println("\n");
 		
@@ -46,6 +56,8 @@ public class Principal {
 		try {
 			controllerAdm.getHuff().mapeamento(no);
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ArvoreNulaException e) {
 			e.printStackTrace();
 		}
 	
