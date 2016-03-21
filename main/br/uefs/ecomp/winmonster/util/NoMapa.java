@@ -2,15 +2,15 @@ package br.uefs.ecomp.winmonster.util;
 
 public class NoMapa {
 	
-	private int sequencia;
+	private String sequencia;
 	private char simbolo;
 	
-	public NoMapa(int sequencia, char simbolo){
+	public NoMapa(String sequencia, char simbolo){
 		this.sequencia = sequencia;
 		this.simbolo = simbolo;
 	}
 
-	public int getSequencia() {
+	public String getSequencia() {
 		return sequencia;
 	}
 

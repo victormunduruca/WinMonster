@@ -130,8 +130,8 @@ public class AlgoritmoHuffman {
 			escrever.newLine();
 			escrever.close();
 			file.close();*/
-			NoMapa folha = new NoMapa(Integer.parseInt(arestas), no.getSimbolo());
-			folhas.inserirInicio(folha);
+			NoMapa folha = new NoMapa(arestas, no.getSimbolo());
+			folhas.inserirFinal(folha);
 			return;
 		}
 		arestas = arestas + 0;

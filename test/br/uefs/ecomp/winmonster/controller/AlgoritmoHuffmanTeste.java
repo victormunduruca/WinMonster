@@ -84,12 +84,20 @@ public class AlgoritmoHuffmanTeste {
 		no1.setFrequencia(1);
 		no1.setSimbolo('o');
 		No no2 = new No();
-		no2.setFrequencia(1);
+		no2.setFrequencia(2);
 		no2.setSimbolo('i');
+		No no3 = new No();
+		no3.setFrequencia(3);
+		no3.setSimbolo('a');
+		No no4 = new No();
+		no4.setFrequencia(4);
+		no4.setSimbolo('e');
 		
 		Fila fila = new Fila();
 		fila.inserirPrioridade(no1);
 		fila.inserirPrioridade(no2);
+		fila.inserirPrioridade(no3);
+		fila.inserirPrioridade(no4);
 		
 		No raiz = null;
 		try{
@@ -111,8 +119,12 @@ public class AlgoritmoHuffmanTeste {
 		NoMapa folha = null;
 		Iterador i = lista.iterador();
 		folha = (NoMapa) i.obterProximo();
-		assertEquals(1, folha.getSequencia());
-		folha = (NoMapa) i.obterProximo();
 		assertEquals(0, folha.getSequencia());
+		folha = (NoMapa) i.obterProximo();
+		assertEquals(10, folha.getSequencia());
+		folha = (NoMapa) i.obterProximo();
+		assertEquals(110, folha.getSequencia());
+		folha = (NoMapa) i.obterProximo();
+		assertEquals(111, folha.getSequencia());
 	}
 }
