@@ -17,16 +17,13 @@ public class Principal {
 		AdministradorController controllerAdm = AdministradorController.getInstance();
 		
 		File arquivo = new File("C:/frase.txt");
-		String texto = null;
-		
-		try {
-			texto = controllerAdm.lerArquivo(arquivo);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
 		
 		Fila fila = null;
-		fila = controllerAdm.getHuff().contaFrequencias(texto);
+		try {
+			fila = controllerAdm.getHuff().contaFrequencias(arquivo);
+		} catch (IOException e3) {
+			e3.printStackTrace();
+		}
 		
 		MeuIterador i = (MeuIterador) fila.iterador();
 		while(i.temProximo()){
@@ -60,7 +57,13 @@ public class Principal {
 		} catch (ArvoreNulaException e) {
 			e.printStackTrace();
 		}
-	
+		
+		try{
+			controllerAdm.getHuff().escreverMapa();
+		}catch(IOException e){
+			
+		}
+		
 	}
 	
 	public static void percorreArvore(No raiz){

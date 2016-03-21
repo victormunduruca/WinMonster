@@ -32,18 +32,6 @@ public class AdministradorController {
 		return algoritmoHuffman;
 	}
 
-	public String lerArquivo(File arquivo) throws IOException{
-		FileReader file = new FileReader(arquivo);
-		BufferedReader leitura = new BufferedReader(file);
-		String texto = leitura.readLine();
-		while(leitura.ready()){
-			texto = texto + "\n" + leitura.readLine();
-		}
-		leitura.close();
-		file.close();
-		return texto;
-	}
-
 	/**
 	 * Método que reseta a referência "instanciaAdm" permitindo criar uma instância da classe AdministradorController.
 	 */

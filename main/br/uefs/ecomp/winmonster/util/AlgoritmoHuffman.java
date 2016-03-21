@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import br.uefs.ecomp.winmonster.exceptions.ArvoreNulaException;
 import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
@@ -41,7 +44,7 @@ public class AlgoritmoHuffman {
 		arquivo.createNewFile();
 	}
 
-	public Fila contaFrequencias(String letras) {
+	/*public Fila contaFrequencias(String letras) {
 		Fila fila = new Fila();
 		for(int i = 0; i < letras.length(); i++) {
 			char ch = letras.charAt(i);
@@ -61,8 +64,8 @@ public class AlgoritmoHuffman {
 
 		}
 		return filaOrdenada;
-	}
-
+	}*/
+	
 	public Fila contaFrequencias(File arquivo) throws IOException{
 		Fila fila = new Fila();
 		FileReader file = new FileReader(arquivo);
@@ -124,12 +127,6 @@ public class AlgoritmoHuffman {
 		if(no == null)
 			throw new ArvoreNulaException();
 		if(no.getFilhoDaEsquerda() == null && no.getFilhoDaDireita() == null){
-			/*FileWriter file = new FileWriter(arquivo, true);
-			BufferedWriter escrever = new BufferedWriter(file);
-			escrever.write(no.getSimbolo() + arestas);
-			escrever.newLine();
-			escrever.close();
-			file.close();*/
 			NoMapa folha = new NoMapa(arestas, no.getSimbolo());
 			folhas.inserirFinal(folha);
 			return;
@@ -144,7 +141,32 @@ public class AlgoritmoHuffman {
 
 	}
 
-	public Lista getFolhas(){
+	public Lista escreverMapa() throws IOException{
+		FileWriter file = new FileWriter(arquivo, true);
+		BufferedWriter escrever = new BufferedWriter(file);
+		
+		MeuIterador i = (MeuIterador) folhas.iterador();
+		NoMapa noAtual = null;
+		while(i.temProximo()){
+			noAtual = (NoMapa) i.obterProximo();
+			escrever.write(noAtual.getSimbolo() + noAtual.getSequencia());
+			escrever.newLine();
+		}
+		escrever.close();
+		file.close();
 		return folhas;
+	}
+	
+	public String hash(String texto){
+		String novomd5 = "";
+		MessageDigest md = null;
+		try{
+			md = MessageDigest.getInstance("MD5");
+		}catch(NoSuchAlgorithmException e){
+			e.printStackTrace();
+		}
+		BigInteger hash = new BigInteger(1, md.digest(texto.getBytes()));
+		novomd5 = hash.toString(16);
+		return novomd5;
 	}
 }

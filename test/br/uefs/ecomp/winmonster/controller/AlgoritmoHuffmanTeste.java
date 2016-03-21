@@ -106,10 +106,16 @@ public class AlgoritmoHuffmanTeste {
 			fail();
 		}
 		
+		try {
+			algoritimoHuffman.geradorArquivo("NomeQualquer");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		Lista lista = null;
 		try{
 			algoritimoHuffman.mapeamento(raiz);
-			lista = algoritimoHuffman.getFolhas();
+			lista = algoritimoHuffman.escreverMapa();
 		}catch(ArvoreNulaException e){
 			fail();
 		} catch (IOException e) {
@@ -119,12 +125,12 @@ public class AlgoritmoHuffmanTeste {
 		NoMapa folha = null;
 		Iterador i = lista.iterador();
 		folha = (NoMapa) i.obterProximo();
-		assertEquals(0, folha.getSequencia());
+		assertEquals("0", folha.getSequencia());
 		folha = (NoMapa) i.obterProximo();
-		assertEquals(10, folha.getSequencia());
+		assertEquals("10", folha.getSequencia());
 		folha = (NoMapa) i.obterProximo();
-		assertEquals(110, folha.getSequencia());
+		assertEquals("110", folha.getSequencia());
 		folha = (NoMapa) i.obterProximo();
-		assertEquals(111, folha.getSequencia());
+		assertEquals("111", folha.getSequencia());
 	}
 }
