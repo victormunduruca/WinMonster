@@ -79,7 +79,7 @@ public class Fila implements IFila{
 				 * objeto atual com o objeto que eu quero inserir na fila. Essa comparação é feita num
 				 * método especifico na classe Dados.
 				 */
-				if(atual.compareTo(o) == 1){
+				if(atual.compareTo(o) > 0){
 					if(celulaAtual == primeiro){
 						/*Se a frequencia do novo objeto que quero inserir for menor que a do objeto que está no 
 						 * inicio da fila, então o primeiro da fila passa a ser esse novo objeto.
