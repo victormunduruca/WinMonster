@@ -1,16 +1,24 @@
 package br.uefs.ecomp.winmonster.util;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
+import br.uefs.ecomp.winmonster.exceptions.ArvoreNulaException;
 import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
 
 public class AlgoritmoHuffman {
 	
 	private String arestas = "";
 	private File arquivo;
+
+	private Lista folhas = new Lista();
 
 	private static AlgoritmoHuffman instanciaAdm;
 
@@ -35,28 +43,6 @@ public class AlgoritmoHuffman {
 		arquivo = new File("mapas/" + nome + ".txt");
 		arquivo.createNewFile();
 	}
-	
-	/*public Fila contaFrequencias(String letras) {
-		Fila fila = new Fila();
-		for(int i = 0; i < letras.length(); i++) {
-			char ch = letras.charAt(i);
-			No no = recuperarNo(fila, ch);
-			if(no == null){
-				No novoNo = new No();
-				novoNo.setSimbolo(ch);
-				fila.inserirFinal(novoNo);
-			} 
-			else{
-				no.setFrequencia(no.getFrequencia() + 1);
-			}
-		}
-		Fila filaOrdenada = new Fila();
-		while(!fila.estaVazia()) {
-			filaOrdenada.inserirPrioridade(fila.removerInicio());
-
-		}
-		return filaOrdenada;
-	}*/
 	
 	public Fila contaFrequencias(File arquivo) throws IOException{
 		Fila fila = new Fila();
@@ -148,28 +134,26 @@ public class AlgoritmoHuffman {
 		file.close();
 		return folhas;
 	}
-	
-	/*public void mapeamento(No no) throws IOException{
-		if(no != null){
-			if(no.eFolha()){
-				FileWriter file = new FileWriter(arquivo, true);
-				BufferedWriter escrever = new BufferedWriter(file);
-				escrever.write(no.getSimbolo() + arestas);
-				escrever.newLine();
-				escrever.close();
-				file.close();
-				return;
-			}
-			arestas = arestas + 1;
-			mapeamento(no.getFilhoDaDireita());
-			arestas = arestas.substring(0, arestas.length() - 1);
-			arestas = arestas + 0;
-			mapeamento(no.getFilhoDaEsquerda());
-			arestas = arestas.substring(0, arestas.length() - 1);
-			
-		*/	
-	public void decodificar(NoMapa no) {
-		
+	public void decodificar(Celula mapa, No arvore) {
+		if(mapa == null) {
+			return;
+		}
+		NoMapa noMapa = (NoMapa) mapa.getObjeto();
+		if(noMapa.getSequencia().equals("")) {
+			arvore.setSimbolo(noMapa.getSimbolo());
+			mapa = mapa.getProximo();
+			return;
+		}
+		if(noMapa.getSequencia().charAt(0) == 0) {
+			No novoNo = new No();
+			arvore.setFilhoDaEsquerda(novoNo);
+			noMapa.setSequencia(noMapa.getSequencia().substring(1));
+			decodificar(mapa, arvore.getFilhoDaEsquerda());
+		} else if(noMapa.getSequencia().charAt(0) == 1) {
+			No novoNo = new No();
+			arvore.setFilhoDaEsquerda(novoNo);
+			decodificar(mapa, arvore.getFilhoDaDireita());
+		}
 	}
 	public String hash(String texto){
 		String novomd5 = "";
