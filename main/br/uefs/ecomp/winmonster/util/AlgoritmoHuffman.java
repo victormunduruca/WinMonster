@@ -36,7 +36,7 @@ public class AlgoritmoHuffman {
 		arquivo.createNewFile();
 	}
 	
-	public Fila contaFrequencias(String letras) {
+	/*public Fila contaFrequencias(String letras) {
 		Fila fila = new Fila();
 		for(int i = 0; i < letras.length(); i++) {
 			char ch = letras.charAt(i);
@@ -50,6 +50,35 @@ public class AlgoritmoHuffman {
 				no.setFrequencia(no.getFrequencia() + 1);
 			}
 		}
+		Fila filaOrdenada = new Fila();
+		while(!fila.estaVazia()) {
+			filaOrdenada.inserirPrioridade(fila.removerInicio());
+
+		}
+		return filaOrdenada;
+	}*/
+	
+	public Fila contaFrequencias(File arquivo) throws IOException{
+		Fila fila = new Fila();
+		FileReader file = new FileReader(arquivo);
+		BufferedReader leitura = new BufferedReader(file);
+		while(leitura.ready()){
+			String texto = leitura.readLine() + "\n";
+			for(int i = 0; i < texto.length(); i++) {
+				char ch = texto.charAt(i);
+				No no = recuperarNo(fila, ch);
+				if(no == null){
+					No novoNo = new No();
+					novoNo.setSimbolo(ch);
+					fila.inserirFinal(novoNo);
+				} 
+				else{
+					no.setFrequencia(no.getFrequencia() + 1);
+				}
+			}
+		}
+		leitura.close();
+		file.close();
 		Fila filaOrdenada = new Fila();
 		while(!fila.estaVazia()) {
 			filaOrdenada.inserirPrioridade(fila.removerInicio());
@@ -84,10 +113,45 @@ public class AlgoritmoHuffman {
 		}
 		return noPai;
 	}
+
+
+	public void mapeamento(No no) throws IOException, ArvoreNulaException{
+		if(no == null)
+			throw new ArvoreNulaException();
+		if(no.eFolha()){
+			NoMapa folha = new NoMapa(arestas, no.getSimbolo());
+			folhas.inserirFinal(folha);
+			return;
+		}
+		arestas = arestas + 0;
+		mapeamento(no.getFilhoDaEsquerda());
+		arestas = arestas.substring(0, arestas.length() - 1);
+
+		arestas = arestas + 1;
+		mapeamento(no.getFilhoDaDireita());
+		arestas = arestas.substring(0, arestas.length() - 1);
+
+	}
+
+	public Lista escreverMapa() throws IOException{
+		FileWriter file = new FileWriter(arquivo, true);
+		BufferedWriter escrever = new BufferedWriter(file);
+		
+		MeuIterador i = (MeuIterador) folhas.iterador();
+		NoMapa noAtual = null;
+		while(i.temProximo()){
+			noAtual = (NoMapa) i.obterProximo();
+			escrever.write(noAtual.getSimbolo() + noAtual.getSequencia());
+			escrever.newLine();
+		}
+		escrever.close();
+		file.close();
+		return folhas;
+	}
 	
-	public void mapeamento(No no) throws IOException{
+	/*public void mapeamento(No no) throws IOException{
 		if(no != null){
-			if(no.getFilhoDaEsquerda() == null && no.getFilhoDaDireita() == null){
+			if(no.eFolha()){
 				FileWriter file = new FileWriter(arquivo, true);
 				BufferedWriter escrever = new BufferedWriter(file);
 				escrever.write(no.getSimbolo() + arestas);
@@ -96,13 +160,27 @@ public class AlgoritmoHuffman {
 				file.close();
 				return;
 			}
+			arestas = arestas + 1;
+			mapeamento(no.getFilhoDaDireita());
+			arestas = arestas.substring(0, arestas.length() - 1);
 			arestas = arestas + 0;
 			mapeamento(no.getFilhoDaEsquerda());
 			arestas = arestas.substring(0, arestas.length() - 1);
 			
-			arestas = arestas + 1;
-			mapeamento(no.getFilhoDaDireita());
-			arestas = arestas.substring(0, arestas.length() - 1);
+		*/	
+	public void decodificar(NoMapa no) {
+		
+	}
+	public String hash(String texto){
+		String novomd5 = "";
+		MessageDigest md = null;
+		try{
+			md = MessageDigest.getInstance("MD5");
+		}catch(NoSuchAlgorithmException e){
+			e.printStackTrace();
 		}
+		BigInteger hash = new BigInteger(1, md.digest(texto.getBytes()));
+		novomd5 = hash.toString(16);
+		return novomd5;
 	}
 }
