@@ -156,19 +156,18 @@ public class AlgoritmoHuffman {
 			decodificarArvore(mapa, arvore.getFilhoDaDireita());
 		}
 	}
-	public String decodificarTexto( Lista mapa , String texto) {
+	public String decodificarTexto( Lista mapa , String textoCod) {
 		int i ;
-
 		String aux = "";
 		String textoDecod = "";
-		for(i = 0; i < texto. length(); i++ ) {
-
-			String txtBuscado = buscarCod(mapa , texto .charAt( i) + "");
+		for(i = 0; i < textoCod. length(); i++ ) {
+			String txtBuscado = buscarCod(mapa , textoCod .charAt( i) + "");
 			if(txtBuscado == null) {
-				aux = aux + texto .charAt( i);
+				aux = aux + textoCod .charAt( i);
 			} else {
 				textoDecod = textoDecod + txtBuscado ;
-			}     aux = "";
+				aux = "";
+			}     
 		}
 		return textoDecod ;
 	}
@@ -178,6 +177,27 @@ public class AlgoritmoHuffman {
 			NoMapa noMapa = (NoMapa) iteradorMapa. obterProximo();
 			if(noMapa .getSequencia() .equals( sequencia)) {
 				return "" + noMapa.getSimbolo ();
+			}
+		}
+		return null ;
+	}
+	
+	public String codificarTexto(Lista mapa , String texto) {
+		String textoCod = "";
+		for(int i = 0; i < texto. length(); i++ ) {
+			String sequenciaBuscada = buscar(mapa , texto .charAt( i));
+			if(sequenciaBuscada != null) {
+				textoCod = textoCod + sequenciaBuscada;
+			} 
+		}
+		return textoCod ;
+	}
+	public String buscar(Lista mapa , char simbolo) {
+		Iterador iteradorMapa = mapa.iterador ();
+		while(iteradorMapa .temProximo()) {
+			NoMapa noMapa = (NoMapa) iteradorMapa. obterProximo();
+			if(noMapa.getSimbolo() ==  simbolo) {
+				return noMapa.getSequencia();
 			}
 		}
 		return null ;
