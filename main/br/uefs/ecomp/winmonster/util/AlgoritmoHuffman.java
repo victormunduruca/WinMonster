@@ -20,6 +20,9 @@ public class AlgoritmoHuffman {
 
 	private Lista folhas = new Lista();
 
+	
+	
+
 	private static AlgoritmoHuffman instanciaAdm;
 
 	private AlgoritmoHuffman() {
@@ -202,8 +205,7 @@ public class AlgoritmoHuffman {
 		}
 		return null ;
 	}
- 
-
+	
 	public String hash(String texto){
 		String novomd5 = "";
 		MessageDigest md = null;
@@ -216,4 +218,11 @@ public class AlgoritmoHuffman {
 		novomd5 = hash.toString(16);
 		return novomd5;
 	}
+	/**
+	 * @return the folhas
+	 */
+	public Lista getFolhas() {
+		return folhas;
+	}
+
 }
