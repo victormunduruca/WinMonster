@@ -156,7 +156,74 @@ public class AlgoritmoHuffman {
 		file.close();
 		return folhas;
 	}
+	public void decodificarArvore(Celula mapa, No arvore) {
+		if(mapa == null) {
+			return;
+		}
+		NoMapa noMapa = (NoMapa) mapa.getObjeto();
+		if(noMapa.getSequencia().equals("")) {
+			arvore.setSimbolo(noMapa.getSimbolo());
+			mapa = mapa.getProximo();
+			return;
+		}
+		if(noMapa.getSequencia().charAt(0) == '0') {
+			No novoNo = new No();
+			arvore.setFilhoDaEsquerda(novoNo);
+			noMapa.setSequencia(noMapa.getSequencia().substring(1));
+			decodificarArvore(mapa, arvore.getFilhoDaEsquerda());
+		} else if(noMapa.getSequencia().charAt(0) == '1') {
+			No novoNo = new No();
+			arvore.setFilhoDaEsquerda(novoNo);
+			noMapa.setSequencia(noMapa.getSequencia().substring(1));
+			decodificarArvore(mapa, arvore.getFilhoDaDireita());
+		}
+	}
+	public String decodificarTexto( Lista mapa , String textoCod) {
+		int i ;
+		String aux = "";
+		String textoDecod = "";
+		for(i = 0; i < textoCod. length(); i++ ) {
+			String txtBuscado = buscarCod(mapa , textoCod .charAt( i) + "");
+			if(txtBuscado == null) {
+				aux = aux + textoCod .charAt( i);
+			} else {
+				textoDecod = textoDecod + txtBuscado ;
+				aux = "";
+			}     
+		}
+		return textoDecod ;
+	}
+	public String buscarCod( Lista mapa , String sequencia) {
+		Iterador iteradorMapa = mapa.iterador ();
+		while(iteradorMapa .temProximo()) {
+			NoMapa noMapa = (NoMapa) iteradorMapa. obterProximo();
+			if(noMapa .getSequencia() .equals( sequencia)) {
+				return "" + noMapa.getSimbolo ();
+			}
+		}
+		return null ;
+	}
 	
+	public String codificarTexto(Lista mapa , String texto) {
+		String textoCod = "";
+		for(int i = 0; i < texto. length(); i++ ) {
+			String sequenciaBuscada = buscar(mapa , texto .charAt( i));
+			if(sequenciaBuscada != null) {
+				textoCod = textoCod + sequenciaBuscada;
+			} 
+		}
+		return textoCod ;
+	}
+	public String buscar(Lista mapa , char simbolo) {
+		Iterador iteradorMapa = mapa.iterador ();
+		while(iteradorMapa .temProximo()) {
+			NoMapa noMapa = (NoMapa) iteradorMapa. obterProximo();
+			if(noMapa.getSimbolo() ==  simbolo) {
+				return noMapa.getSequencia();
+			}
+		}
+		return null ;
+	}
 	public String hash(String texto){
 		String novomd5 = "";
 		MessageDigest md = null;
