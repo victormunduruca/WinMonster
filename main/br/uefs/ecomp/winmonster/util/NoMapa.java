@@ -18,4 +18,9 @@ public class NoMapa {
 		return simbolo;
 	}
 
+	public void setSequencia(String sequencia) {
+		this.sequencia = sequencia;
+		
+	}
+
 }

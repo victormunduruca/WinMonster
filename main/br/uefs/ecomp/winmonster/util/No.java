@@ -67,4 +67,9 @@ public class No implements Comparable<Object> {
 		else
 			return 0;
 	}
+
+	public void setFilhoDaEsquerda(No novoNo) {
+		this.filhoDaEsquerda = novoNo;
+		
+	}
 }

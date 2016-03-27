@@ -11,7 +11,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import br.uefs.ecomp.winmonster.exceptions.ArvoreNulaException;
-import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
 
 public class AlgoritmoHuffman {
 
@@ -36,35 +35,10 @@ public class AlgoritmoHuffman {
 		instanciaAdm = null;
 	}
 
-	/*Gero um arquivo de mapa com  mesmo nome do arquivo original para facilitar
-	 *  na hora da busca do mapa na descompactação.
-	 */
 	public void geradorArquivo(String nome) throws IOException{
 		arquivo = new File("mapas/" + nome + ".txt");
 		arquivo.createNewFile();
 	}
-
-	/*public Fila contaFrequencias(String letras) {
-		Fila fila = new Fila();
-		for(int i = 0; i < letras.length(); i++) {
-			char ch = letras.charAt(i);
-			No no = recuperarNo(fila, ch);
-			if(no == null){
-				No novoNo = new No();
-				novoNo.setSimbolo(ch);
-				fila.inserirFinal(novoNo);
-			} 
-			else{
-				no.setFrequencia(no.getFrequencia() + 1);
-			}
-		}
-		Fila filaOrdenada = new Fila();
-		while(!fila.estaVazia()) {
-			filaOrdenada.inserirPrioridade(fila.removerInicio());
-
-		}
-		return filaOrdenada;
-	}*/
 	
 	public Fila contaFrequencias(File arquivo) throws IOException{
 		Fila fila = new Fila();
@@ -105,9 +79,7 @@ public class AlgoritmoHuffman {
 		return null;
 	}
 
-	public No arvore(Fila fila) throws FilaNulaException{
-		if(fila.estaVazia())
-			throw new FilaNulaException();
+	public No arvore(Fila fila) {
 		if(fila.obterTamanho() == 1)
 			return (No) fila.removerInicio();
 		No noPai = null;
@@ -141,10 +113,10 @@ public class AlgoritmoHuffman {
 
 	}
 
-	public Lista escreverMapa() throws IOException{
+	public void escreverMapa() throws IOException{
 		FileWriter file = new FileWriter(arquivo, true);
 		BufferedWriter escrever = new BufferedWriter(file);
-		
+			
 		MeuIterador i = (MeuIterador) folhas.iterador();
 		NoMapa noAtual = null;
 		while(i.temProximo()){
@@ -154,8 +126,12 @@ public class AlgoritmoHuffman {
 		}
 		escrever.close();
 		file.close();
+	}
+	
+	public Lista getLista(){
 		return folhas;
 	}
+	
 	public void decodificarArvore(Celula mapa, No arvore) {
 		if(mapa == null) {
 			return;
@@ -178,7 +154,7 @@ public class AlgoritmoHuffman {
 			decodificarArvore(mapa, arvore.getFilhoDaDireita());
 		}
 	}
-	public String decodificarTexto( Lista mapa , String textoCod) {
+	public String decodificarTexto(Lista mapa , String textoCod) {
 		int i ;
 		String aux = "";
 		String textoDecod = "";
@@ -236,4 +212,5 @@ public class AlgoritmoHuffman {
 		novomd5 = hash.toString(16);
 		return novomd5;
 	}
+	
 }

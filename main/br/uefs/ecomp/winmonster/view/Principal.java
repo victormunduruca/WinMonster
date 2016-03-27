@@ -16,7 +16,10 @@ public class Principal {
 		
 		AdministradorController controllerAdm = AdministradorController.getInstance();
 		
-		File arquivo = new File("C:/frase.txt");
+		GUI gui = new GUI();
+		gui.InterfaceGrafica();
+
+		/*File arquivo = new File("C:/frase.txt");
 		
 		Fila fila = null;
 		try {
@@ -62,7 +65,7 @@ public class Principal {
 			controllerAdm.getHuff().escreverMapa();
 		}catch(IOException e){
 			
-		}
+		}*/
 		
 	}
 	
