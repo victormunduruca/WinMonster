@@ -225,11 +225,12 @@ public class AlgoritmoHuffman {
 	    return texto;		
 	}
 	public void escreverBitSet(BitSet bits, String texto) {
-		for(int i = texto.length() - 1; i >= 0 ; i--) {
+		for(int i = 0; i < texto.length() ; i++) {
 			if(texto.charAt(i) == '0') {
 				bits.clear(i);
 			} else if(texto.charAt(i) == '1') {
 				bits.set(i);
+				
 			}
 		}
 	}
