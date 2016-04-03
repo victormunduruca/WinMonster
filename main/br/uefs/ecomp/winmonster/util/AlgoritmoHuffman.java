@@ -266,6 +266,7 @@ public class AlgoritmoHuffman {
 			}
 			
 		}
+		
 		return strBits;
 	}
 	

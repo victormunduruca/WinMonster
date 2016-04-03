@@ -39,6 +39,7 @@ public class No implements Comparable<Object>, Serializable{
 	public No getFilhoDaEsquerda() {
 		return filhoDaEsquerda;
 	}
+	
 
 	/**
 	 * @return the filhoDaDireita
