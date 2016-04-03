@@ -7,8 +7,11 @@ import br.uefs.ecomp.winmonster.controller.AdministradorController;
 import br.uefs.ecomp.winmonster.exceptions.ArvoreNulaException;
 import br.uefs.ecomp.winmonster.exceptions.FilaNulaException;
 import br.uefs.ecomp.winmonster.util.Fila;
+import br.uefs.ecomp.winmonster.util.Iterador;
+import br.uefs.ecomp.winmonster.util.Lista;
 import br.uefs.ecomp.winmonster.util.MeuIterador;
 import br.uefs.ecomp.winmonster.util.No;
+import br.uefs.ecomp.winmonster.util.NoMapa;
 
 public class Principal {
 	
@@ -16,10 +19,10 @@ public class Principal {
 		
 		AdministradorController controllerAdm = AdministradorController.getInstance();
 		
-		GUI gui = new GUI();
-		gui.InterfaceGrafica();
+//		GUI gui = new GUI();
+//		gui.InterfaceGrafica();
 
-		/*File arquivo = new File("C:/frase.txt");
+		File arquivo = new File("C:/Users/Victor/pequeno.txt");
 		
 		Fila fila = null;
 		try {
@@ -46,26 +49,38 @@ public class Principal {
 		
 		percorreArvore(no);
 		System.out.println("\n");
-		
-		try {
-			controllerAdm.getHuff().geradorArquivo("NomeQualquer");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+
 		
 		try {
 			controllerAdm.getHuff().mapeamento(no);
+			Lista mapa = controllerAdm.getHuff().escreverMapa();
+			Iterador it = (Iterador) mapa.iterador();
+//			System.out.println("MAPA: ");
+//			while(it.temProximo()) {
+//				NoMapa n = (NoMapa) it.obterProximo();
+//				System.out.println("Char: " +n.getSimbolo());
+//				System.out.println("Sequencia: " +n.getSequencia());
+//			}
+			
+			String cod = controllerAdm.getHuff().codificarTexto(mapa, controllerAdm.getHuff().pegarStringArquivo(arquivo));
+			
+			//System.out.println("Texto codificado: " +cod);
+			
+			//String decod = controllerAdm.getHuff().decodificarTexto(mapa, cod);
+			System.out.println("Oxente");
+			//System.out.println("Texto decodificado: " +decod);
+			controllerAdm.getHuff().compactar(no, cod);
+		//	System.out.println("Texto lido: " +controllerAdm.getHuff().pegarStringArquivo(arquivo));
+			controllerAdm.getHuff().descompactar("C:/Users/Victor/bin.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (ArvoreNulaException e) {
 			e.printStackTrace();
 		}
+		catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 		
-		try{
-			controllerAdm.getHuff().escreverMapa();
-		}catch(IOException e){
-			
-		}*/
 		
 	}
 	

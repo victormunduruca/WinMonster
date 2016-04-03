@@ -146,10 +146,10 @@ public class AlgoritmoHuffman {
 		int i ;
 		String aux = "";
 		String textoDecod = "";
-		for(i = 0; i < textoCod. length(); i++ ) {
-			String txtBuscado = buscarCod(mapa , aux + textoCod .charAt( i));
+		for(i = 0; i < textoCod.length(); i++ ) {
+			String txtBuscado = buscarCod(mapa , aux + textoCod.charAt( i));
 			if(txtBuscado == null) {
-				aux = aux + textoCod .charAt( i);
+				aux = aux + textoCod.charAt( i);
 			} else {
 				textoDecod = textoDecod + txtBuscado ;
 				aux = "";
@@ -157,11 +157,12 @@ public class AlgoritmoHuffman {
 		}
 		return textoDecod ;
 	}
+
 	public String buscarCod( Lista mapa , String sequencia) {
 		Iterador iteradorMapa = mapa.iterador ();
 		while(iteradorMapa .temProximo()) {
 			NoMapa noMapa = (NoMapa) iteradorMapa. obterProximo();
-			if(noMapa .getSequencia() .equals( sequencia)) {
+			if(noMapa.getSequencia().equals(sequencia)) {
 				return "" + noMapa.getSimbolo ();
 			}
 		}
@@ -170,8 +171,8 @@ public class AlgoritmoHuffman {
 	
 	public String codificarTexto(Lista mapa , String texto) {
 		String textoCod = "";
-		for(int i = 0; i < texto. length(); i++ ) {
-			String sequenciaBuscada = buscar(mapa , texto .charAt( i));
+		for(int i = 0; i < texto.length(); i++ ) {
+			String sequenciaBuscada = buscar(mapa, texto.charAt(i));
 			if(sequenciaBuscada != null) {
 				textoCod = textoCod + sequenciaBuscada;
 			} 
@@ -275,7 +276,7 @@ public class AlgoritmoHuffman {
 		String txtCod = lerTexto(caminho);
 		mapeamento(mapa);
 		String txtDecod = decodificarTexto(folhas, txtCod);
-		System.out.println("" +txtDecod);
+		//System.out.println("" +txtDecod);
 		File arquivo = new File("C:/Users/Victor/decomp.txt"); 
 		FileWriter fw = new FileWriter(arquivo);  
 		BufferedWriter bw = new BufferedWriter(fw);  
@@ -287,7 +288,7 @@ public class AlgoritmoHuffman {
 		FileReader file = new FileReader(arquivo);
 		BufferedReader leitura = new BufferedReader(file);
 		while(leitura.ready()){
-			texto = leitura.readLine() + "\n";
+			texto += leitura.readLine() + "\n";
 		}
 		leitura.close();
 		file.close();
