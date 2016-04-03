@@ -1,6 +1,8 @@
 package br.uefs.ecomp.winmonster.util;
 
-public class No implements Comparable<Object> {
+import java.io.Serializable;
+
+public class No implements Comparable<Object>, Serializable{
 	
 	private int frequencia;
 	private char simbolo;

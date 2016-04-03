@@ -110,7 +110,7 @@ public class AlgoritmoHuffman {
 
 	public void mapeamento(No no) throws IOException, ArvoreNulaException{
 		if(no == null)
-			throw new ArvoreNulaException();
+			throw new ArvoreNulaException(); 
 		if(no.getFilhoDaEsquerda() == null && no.getFilhoDaDireita() == null){
 			NoMapa folha = new NoMapa(arestas, no.getSimbolo());
 			folhas.inserirFinal(folha);
@@ -200,50 +200,89 @@ public class AlgoritmoHuffman {
 		novomd5 = hash.toString(16);
 		return novomd5;
 	}
-	public void compactar(Lista mapa, String txtCodificado) throws IOException {
+	
+	public void compactar(No mapa, String txtCodificado) throws IOException {
 		FileOutputStream fos = new FileOutputStream("C:/Users/Victor/bin.txt");
 	    ObjectOutputStream escrever = new ObjectOutputStream(fos);
-	    BitSet bits = new BitSet();
-	    escreverBitSet(bits, txtCodificado);
 	    escrever.writeObject(mapa);
+	    BitSet bits = new BitSet();
+	    boolean bitFinal = escreverBitSet(bits, txtCodificado);
+	    if(bitFinal) {
+	    	escrever.writeBoolean(true);
+	    } else {
+	    	escrever.writeBoolean(false);
+	    }
 	    escrever.writeObject(bits);
 	    escrever.close();
 	}
-	public Lista lerMapa(String caminho) throws IOException, ClassNotFoundException {
+	
+	public No lerMapa(String caminho) throws IOException, ClassNotFoundException {
 		FileInputStream fis = new FileInputStream(caminho);
 	    ObjectInputStream entrada = new ObjectInputStream(fis);
-	    Lista mapa = (Lista) entrada.readObject();
+	    No mapa = (No) entrada.readObject();
 	    entrada.close();
 	    return mapa;
 	}
+	
 	public String lerTexto(String caminho) throws IOException, ClassNotFoundException {
 		FileInputStream fis = new FileInputStream(caminho);
 	    ObjectInputStream entrada = new ObjectInputStream(fis);
 	    entrada.readObject();
-	    String texto = (String) entrada.readObject();
+	    boolean bitFinal = (boolean) entrada.readBoolean();
+	    BitSet bits = (BitSet) entrada.readObject();
+	    String texto = bitToString(bits, bitFinal);
 	    entrada.close();
 	    return texto;		
 	}
-	public void escreverBitSet(BitSet bits, String texto) {
+	
+	public static boolean escreverBitSet(BitSet bits, String texto) {
 		for(int i = 0; i < texto.length() ; i++) {
 			if(texto.charAt(i) == '0') {
 				bits.clear(i);
 			} else if(texto.charAt(i) == '1') {
 				bits.set(i);
-				
 			}
 		}
-	}
-	public Lista descompactar(String caminho) throws ClassNotFoundException, IOException {
-		Lista mapa = lerMapa(caminho);
-		String txtCod = lerTexto(caminho);
-		String txtDecod = decodificarTexto(mapa, txtCod);
-		System.out.println("" +txtDecod);
-		return mapa;
+		if(texto.charAt(texto.length() - 1) == '0') {
+			bits.set(texto.length());
+			return true;
+		}
+		return false;
 	}
 	
+	public static String bitToString(BitSet bits, boolean bitFinal) {
+		String strBits = "";
+		int tamanho;
+		if(bitFinal) {
+			tamanho = bits.length() - 1;
+		} else {
+			tamanho = bits.length();
+		}
+		for(int i = 0; i < tamanho; i++) {
+			if(bits.get(i)) {
+				strBits += "1";
+			} else {
+				strBits += "0";
+			}
+			
+		}
+		return strBits;
+	}
+	
+	public void descompactar(String caminho) throws ClassNotFoundException, IOException, ArvoreNulaException {
+		No mapa = lerMapa(caminho);
+		String txtCod = lerTexto(caminho);
+		mapeamento(mapa);
+		String txtDecod = decodificarTexto(folhas, txtCod);
+		System.out.println("" +txtDecod);
+		File arquivo = new File("C:/Users/Victor/decomp.txt"); 
+		FileWriter fw = new FileWriter(arquivo);  
+		BufferedWriter bw = new BufferedWriter(fw);  
+		bw.write(txtDecod);
+		bw.close();
+	}
 	public String pegarStringArquivo(File arquivo) throws IOException {
-		String texto = null;
+		String texto = "";
 		FileReader file = new FileReader(arquivo);
 		BufferedReader leitura = new BufferedReader(file);
 		while(leitura.ready()){
@@ -253,4 +292,5 @@ public class AlgoritmoHuffman {
 		file.close();
 		return texto;
 	}
+	
 }
