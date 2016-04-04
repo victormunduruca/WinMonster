@@ -78,7 +78,7 @@ public class AlgoritmoHuffman {
 		}
 		return filaOrdenada;
 	}
-
+	
 	public No recuperarNo(Fila fila, char simbolo) {
 		Iterador iteradorFila = fila.iterador();
 		while(iteradorFila.temProximo()) {
@@ -141,22 +141,38 @@ public class AlgoritmoHuffman {
 		file.close();*/
 		return folhas;
 	}
-
-	public String decodificarTexto(Lista mapa , String textoCod) {
-		int i ;
-		String aux = "";
-		String textoDecod = "";
-		for(i = 0; i < textoCod.length(); i++ ) {
-			String txtBuscado = buscarCod(mapa , aux + textoCod.charAt( i));
-			if(txtBuscado == null) {
-				aux = aux + textoCod.charAt( i);
-			} else {
-				textoDecod = textoDecod + txtBuscado ;
-				aux = "";
-			}     
+	
+	public String decodificarTexto(No arvore, String txtCod) {
+		No aux = arvore;
+		String txtDecod = "";
+		for(int i = 0; i < txtCod.length(); i++) {
+			if(txtCod.charAt(i) == '0') {
+				aux = aux.getFilhoDaEsquerda();
+			} else if(txtCod.charAt(i) == '1') {
+				aux = aux.getFilhoDaDireita();
+			}
+			if(aux.eFolha()) {
+				txtDecod += aux.getSimbolo();
+				aux = arvore;
+			}
 		}
-		return textoDecod ;
+		return txtDecod;
 	}
+//	public String decodificarTexto(Lista mapa , String textoCod) {
+//		int i ;
+//		String aux = "";
+//		String textoDecod = "";
+//		for(i = 0; i < textoCod.length(); i++ ) {
+//			String txtBuscado = buscarCod(mapa , aux + textoCod.charAt( i));
+//			if(txtBuscado == null) {
+//				aux = aux + textoCod.charAt( i);
+//			} else {
+//				textoDecod = textoDecod + txtBuscado ;
+//				aux = "";
+//			}     
+//		}
+//		return textoDecod ;
+//	}
 
 	public String buscarCod( Lista mapa , String sequencia) {
 		Iterador iteradorMapa = mapa.iterador ();
@@ -274,9 +290,9 @@ public class AlgoritmoHuffman {
 	public void descompactar(String caminho) throws ClassNotFoundException, IOException, ArvoreNulaException {
 		No mapa = lerMapa(caminho);
 		String txtCod = lerTexto(caminho);
-		mapeamento(mapa);
-		String txtDecod = decodificarTexto(folhas, txtCod);
-		//System.out.println("" +txtDecod);
+		//mapeamento(mapa);
+		String txtDecod = decodificarTexto(mapa, txtCod);
+		System.out.println("" +txtDecod);
 		File arquivo = new File("C:/Users/Victor/decomp.txt"); 
 		FileWriter fw = new FileWriter(arquivo);  
 		BufferedWriter bw = new BufferedWriter(fw);  
