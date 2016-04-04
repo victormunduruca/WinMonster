@@ -18,7 +18,12 @@ public class No implements Comparable<Object>, Serializable{
 		this.filhoDaEsquerda = filhoDaEsquerda;
 		this.filhoDaDireita = filhoDaDireita;
 	}
-
+	public boolean eFolha() {
+		if(this.getFilhoDaDireita() == null && this.getFilhoDaEsquerda() == null ) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * @return the somaFrequencia
 	 */
